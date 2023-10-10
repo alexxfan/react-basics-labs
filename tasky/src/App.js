@@ -11,11 +11,11 @@ import Grid from '@mui/material/Grid';
 function App() {
   const [taskState, setTaskState] = useState({
     tasks : [
-      { id:1, title:"Dishes", description: "Empty dishwasher", deadline: "Today", done: false },
-      { id:2, title: "Laundry", description: "Fold clothes and put away", deadline: "Tomorrow", done: false },
-      { id:3, title: "Tidy up", deadline: "Today", done: false },
-      { id:4, title: "Hoover", description: "Hoover the rooms with carpet", deadline: "Today", done: false },
-      { id:5, title: "Polish", description: "Polish all tables and kitchen surfaces", deadline: "Tomorrow", done: false }
+      { id:1, title:"Dishes", description: "Empty dishwasher", deadline: "Today", done: false, priority: "Medium" },
+      { id:2, title: "Laundry", description: "Fold clothes and put away", deadline: "Tomorrow", done: false, priority: "Low" },
+      { id:3, title: "Tidy up", deadline: "Today", done: false, priority: "Medium" },
+      { id:4, title: "Hoover", description: "Hoover the rooms with carpet", deadline: "Today", done: false, priority: "High" },
+      { id:5, title: "Polish", description: "Polish all tables and kitchen surfaces", deadline: "Tomorrow", done: false, priority: "Low" }
 
     ]
   });
@@ -36,12 +36,13 @@ function App() {
   const [ formState, setFormState ] = useState({
     title: "",
     description: "",
-    deadline: ""
+    deadline: "",
+    priority:""
   });
 
   const formChangeHandler = (event) => {
     let form = {...formState};
-
+    console.log(form);
     switch(event.target.name) {
       case "title":
           form.title = event.target.value;
@@ -51,6 +52,9 @@ function App() {
           break;
       case "deadline":
           form.deadline = event.target.value;
+          break;
+      case "priority":
+          form.priority = event.target.value;
           break;
       default:
           form = formState;
@@ -67,6 +71,8 @@ function App() {
     const form = {...formState};
 
     form.id = uuidv4();
+
+    // form.priority = taskState.priority;
     
     tasks.push(form);
     setTaskState({tasks});
@@ -104,6 +110,7 @@ function App() {
                 deadline={task.deadline}
                 done={task.done}
                 key={task.id}
+                priority={task.priority}
                 markDone = {() => doneHandler(index)}
                 deleteTask = {() => deleteHandler(index)}
               />
